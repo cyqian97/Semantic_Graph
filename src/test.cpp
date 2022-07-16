@@ -3,15 +3,20 @@
 
 int main()
 {
-    int** A;
-    A = new int* [5];
+    bool** A;
+    A = new bool* [5];
+
+    bool temp = true;
 
     for(int i = 0; i<5; i++)
-        A[i] = new int[5];
+        A[i] = new bool[5];
     
     for(int i = 0; i<5; i++)
         for(int j = 0; j<5; j++)
-            A[i][j] = j+5*i;
+        {
+            A[i][j] = temp;
+            temp = !temp;
+        }
 
     for(int i = 0; i<5; i++)
     {
