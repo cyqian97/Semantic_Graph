@@ -4,18 +4,19 @@
 #include <algorithm>
 #include <iostream>
 
-class sementic_graph_vertex
+class SementicGraphVertex
 {
 private:
-    const int id_node = -1;
-    const int label_semantic = -1;
     std::vector<int*> pixels_inside;
     std::vector<int*> pixels_adjacent;
 
 public:
-    sementic_graph_vertex();
-    sementic_graph_vertex(int _id_node, int _label_semantic);
-    ~sementic_graph_vertex();
+    const int id_node = -1;
+    const int label_semantic = -1;
+
+    SementicGraphVertex();
+    SementicGraphVertex(int _id_node, int _label_semantic);
+    ~SementicGraphVertex();
 
     void add_pixel_inside(int x, int y);
     void add_pixel_adjacent(int x, int y);
@@ -29,32 +30,32 @@ public:
     std::vector<int*> get_pixels_adjacent(){return pixels_adjacent;}
 };
 
-sementic_graph_vertex::sementic_graph_vertex()
+SementicGraphVertex::SementicGraphVertex()
 {
 }
 
-sementic_graph_vertex::sementic_graph_vertex(int _id_node, int _label_semantic):
+SementicGraphVertex::SementicGraphVertex(int _id_node, int _label_semantic):
     id_node(_id_node), label_semantic(_label_semantic)
 {
 }
 
-sementic_graph_vertex::~sementic_graph_vertex()
+SementicGraphVertex::~SementicGraphVertex()
 {
 }
 
-void sementic_graph_vertex::add_pixel_inside(int x, int y)
+void SementicGraphVertex::add_pixel_inside(int x, int y)
 {
     int temp[2] = {x,y};
     pixels_inside.push_back(temp);
 }
 
-void sementic_graph_vertex::add_pixel_adjacent(int x, int y)
+void SementicGraphVertex::add_pixel_adjacent(int x, int y)
 {
     int temp[2] = {x,y};
     pixels_adjacent.push_back(temp);
 }
 
-bool sementic_graph_vertex::is_pixel_inside(int x, int y)
+bool SementicGraphVertex::is_pixel_inside(int x, int y)
 {
     int temp[2] = {x,y};
     auto iter_pixel = std::find(
@@ -66,7 +67,7 @@ bool sementic_graph_vertex::is_pixel_inside(int x, int y)
     return true;   
 }
 
-bool sementic_graph_vertex::is_pixel_adjacent(int x, int y)
+bool SementicGraphVertex::is_pixel_adjacent(int x, int y)
 {
     int temp[2] = {x,y};
     auto iter_pixel = std::find(
