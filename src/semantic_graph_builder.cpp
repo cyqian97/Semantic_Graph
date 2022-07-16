@@ -4,23 +4,7 @@
 #include <fstream>
 #include <iostream>
 
-class semantic_graph_builder
-{
-private:
-  /* data */
-public:
-  semantic_graph_builder(/* args */);
-  ~semantic_graph_builder();
-};
-
-semantic_graph_builder::semantic_graph_builder(/* args */)
-{
-}
-
-semantic_graph_builder::~semantic_graph_builder()
-{
-}
-
+#include "sementic_graph_vertex.hpp"
 
 int
 main (int argc, char** argv)
@@ -42,7 +26,18 @@ main (int argc, char** argv)
     for (int j = 0; j < img_width; j++)
       f >> mat_semantic_img[i][j];
 
+  sementic_graph_vertex sgv(0,5);
+  sgv.add_pixel_inside(0,1);
+  sgv.add_pixel_adjacent(2,3);
 
+  std::cout << sgv.get_id_node() << std::endl;
+  std::cout << sgv.get_label_semantic() << std::endl;
+
+  auto temp =  sgv.get_pixels_inside();
+  std::cout << temp[0][0] << ", " << temp[0][1] << std::endl;
+
+  temp =  sgv.get_pixels_adjacent();
+  std::cout << temp[0][0] << ", " << temp[0][1] << std::endl;
 
 
   return (0);
