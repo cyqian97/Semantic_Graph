@@ -4,8 +4,26 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 project(semantic_graph)
 
-
 set(CMAKE_BUILD_TYPE Release)
+
+find_package(OpenCV 3.0 QUIET)
+if(NOT OpenCV_FOUND)
+   find_package(OpenCV 2.4.3 QUIET)
+   if(NOT OpenCV_FOUND)
+      message(FATAL_ERROR "OpenCV > 2.4.3 not found.")
+   endif()
+endif()
+
+
+include_directories(
+${PROJECT_SOURCE_DIR}
+${PROJECT_SOURCE_DIR}/include
+)
+
+
+target_link_libraries(${PROJECT_NAME}
+${OpenCV_LIBS}
+)
 
 add_executable (semantic_graph_builder src/semantic_graph_builder.cpp)
 add_executable (test src/test.cpp)
