@@ -7,8 +7,8 @@
 class sementic_graph_vertex
 {
 private:
-    int id_node = -1;
-    int label_semantic = -1;
+    const int id_node = -1;
+    const int label_semantic = -1;
     std::vector<int*> pixels_inside;
     std::vector<int*> pixels_adjacent;
 
@@ -33,10 +33,9 @@ sementic_graph_vertex::sementic_graph_vertex()
 {
 }
 
-sementic_graph_vertex::sementic_graph_vertex(int _id_node, int _label_semantic)
+sementic_graph_vertex::sementic_graph_vertex(int _id_node, int _label_semantic):
+    id_node(_id_node), label_semantic(_label_semantic)
 {
-    id_node = _id_node;
-    label_semantic = _label_semantic;
 }
 
 sementic_graph_vertex::~sementic_graph_vertex()
