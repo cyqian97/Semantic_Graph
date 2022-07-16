@@ -8,3 +8,4 @@ project(semantic_graph)
 set(CMAKE_BUILD_TYPE Release)
 
 add_executable (semantic_graph_builder src/semantic_graph_builder.cpp)
+add_executable (test src/test.cpp)
