@@ -1,0 +1,15 @@
+num_classes: 2
+num_train_per_class: 200
+num_test_per_class: 100
+class_dirs: ['/home/cyqian/dataset/Cepton-labels/PedestrianPointCloudDataSet/pcd', '/home/cyqian/dataset/Cepton-labels/VehiclePointCloudDataSet/pcd']
+do_overwrite: true
+do_display: false
+normal_estimator_radius: 1.0
+fpfh_radius: 1.0
+ism_sampling_size: 1.0
+ism_num_clusters: 5000
+vote_radius_multiplier: 1
+vote_sigma_multiplier: 10
+_testing: false
+_testing_train:  [["ism_train_cat.pcd", "ism_test_cat.pcd"],["ism_train_horse.pcd", "ism_test_horse.pcd"]]
+_testing_test:  [["ism_test_michael.pcd"],["ism_test_wolf.pcd"]]

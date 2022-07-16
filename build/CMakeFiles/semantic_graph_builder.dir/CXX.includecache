@@ -1,0 +1,18 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/SLAM/Semantic_Graph/src/semantic_graph_builder.cpp
+array
+-
+vector
+-
+fstream
+-
+iostream
+-
+
