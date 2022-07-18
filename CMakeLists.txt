@@ -20,7 +20,7 @@ ${PROJECT_SOURCE_DIR}/include
 ${OpenCV_INCLUDE_DIRS}
 )
 
-add_executable (semantic_graph_builder src/semantic_graph_builder.cpp)
+add_executable (semantic_graph_builder src/main.cpp)
 add_executable (test src/test.cpp)
 
 target_link_libraries(${PROJECT_NAME}_builder

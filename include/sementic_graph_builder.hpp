@@ -8,8 +8,8 @@ namespace SemanticGraph{
 class SementicGraphVertex
 {
 private:
-    std::vector<int*> pixels_inside;
-    std::vector<int*> pixels_adjacent;
+    bool** mat_adjacency;
+
 
 public:
     const int id_node = -1;
