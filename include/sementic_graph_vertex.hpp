@@ -8,14 +8,15 @@ namespace SemanticGraph{
 class Vertex
 {
 private:
+    const int id_node = -1;
+    const int label_semantic = -1;
+
     std::vector<int*> pixels_inside;
     std::vector<int*> pixels_adjacent;
 
 public:
-    const int id_node = -1;
-    const int label_semantic = -1;
 
-    Vertex();
+    // Vertex();
     Vertex(int _id_node, int _label_semantic);
     ~Vertex();
 
@@ -31,9 +32,9 @@ public:
     std::vector<int*> get_pixels_adjacent(){return pixels_adjacent;}
 };
 
-Vertex::Vertex()
-{
-}
+// Vertex::Vertex()
+// {
+// }
 
 Vertex::Vertex(int _id_node, int _label_semantic):
     id_node(_id_node), label_semantic(_label_semantic)

@@ -3,80 +3,83 @@
 #include <string>
 #include <algorithm>
 #include <iostream>
+#include "sementic_graph_vertex.hpp"
+
 
 namespace SemanticGraph{
+
+
 class Graph
 {
 private:
-    std::vector<int*> pixels_inside;
-    std::vector<int*> pixels_adjacent;
+    const int image_height;
+    const int image_width;
+    int** image_semantic;
+
+    std::vector<Vertex> vertices;
+    bool** mat_adjacency;
+
+    int num_pixels;
+
+    int** mat_id_vertex;
+
+    bool** mat_scanned;
+    int num_scanned = 0;
+
+    std::vector<int*> queue_current;
+    std::vector<int*> queue_next;
+
+    int id_vertex_current = 0;
+    Vertex* vertex_current_ptr;
 
 public:
-    const int id_node = -1;
-    const int label_semantic = -1;
 
-    Graph();
-    Graph(int _id_node, int _label_semantic);
+    Graph(int** const img_semantic, const int image_height, const int image_width);
     ~Graph();
 
-    void add_pixel_inside(int x, int y);
-    void add_pixel_adjacent(int x, int y);
-
-    bool is_pixel_inside(int x, int y);
-    bool is_pixel_adjacent(int x, int y);
-
-    int get_id_node(){return id_node;}
-    int get_label_semantic(){return label_semantic;}
-    std::vector<int*> get_pixels_inside(){return pixels_inside;}
-    std::vector<int*> get_pixels_adjacent(){return pixels_adjacent;}
+    void flood_fill();
 };
 
-Graph::Graph()
+
+
+Graph::Graph(int** const _image_semantic, const int _image_height, const int _image_width):
+    image_semantic(_image_semantic), image_height(_image_height), image_width(_image_width)
 {
+    num_pixels = image_height*image_width;
+
+    mat_id_vertex = new int* [image_height];
+    for(int i = 0; i<image_height; i++)
+        mat_id_vertex[i] = new int[image_width];
+    for(int i = 0; i<image_height; i++)
+        for(int j = 0; j<image_width; j++)
+            mat_id_vertex[i][j] = -1;
+    
+    mat_scanned = new bool* [image_height];
+    for(int i = 0; i<image_height; i++)
+        mat_scanned[i] = new bool[image_width];
+    for(int i = 0; i<image_height; i++)
+        for(int j = 0; j<image_width; j++)
+            mat_scanned[i][j] = false;
+
+    int temp[2] = {0,0};
+    queue_current.push_back(temp);
+    vertex_current_ptr = new Vertex(id_vertex_current++,image_semantic[0][0]);
+
 }
 
-Graph::Graph(int _id_node, int _label_semantic):
-    id_node(_id_node), label_semantic(_label_semantic)
-{
-}
 
 Graph::~Graph()
 {
 }
 
-void Graph::add_pixel_inside(int x, int y)
+void Graph::flood_fill()
 {
-    int temp[2] = {x,y};
-    pixels_inside.push_back(temp);
+    for(const auto &pixel: queue_current)
+    {
+        
+    }
 }
 
-void Graph::add_pixel_adjacent(int x, int y)
-{
-    int temp[2] = {x,y};
-    pixels_adjacent.push_back(temp);
-}
 
-bool Graph::is_pixel_inside(int x, int y)
-{
-    int temp[2] = {x,y};
-    auto iter_pixel = std::find(
-        pixels_inside.begin(),pixels_inside.end(),temp);
 
-    if(iter_pixel == pixels_inside.end())
-        return false;
-    
-    return true;   
-}
-
-bool Graph::is_pixel_adjacent(int x, int y)
-{
-    int temp[2] = {x,y};
-    auto iter_pixel = std::find(
-        pixels_adjacent.begin(),pixels_adjacent.end(),temp);
-
-    if(iter_pixel == pixels_adjacent.end())
-        return false;
-    
-    return true;   
-}
 } // namespace SemanticGraph
