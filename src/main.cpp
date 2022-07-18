@@ -26,7 +26,7 @@ main (int argc, char** argv)
     for (int j = 0; j < img_width; j++)
       f >> mat_semantic_img[i][j];
 
-  SementicGraphVertex sgv(0,5);
+  SementicGraph::Vertex sgv(0,5);
   sgv.add_pixel_inside(0,1);
   sgv.add_pixel_adjacent(2,3);
 

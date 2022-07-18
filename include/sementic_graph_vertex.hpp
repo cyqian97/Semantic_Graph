@@ -5,7 +5,7 @@
 #include <iostream>
 
 namespace SemanticGraph{
-class SementicGraphVertex
+class Vertex
 {
 private:
     std::vector<int*> pixels_inside;
@@ -15,9 +15,9 @@ public:
     const int id_node = -1;
     const int label_semantic = -1;
 
-    SementicGraphVertex();
-    SementicGraphVertex(int _id_node, int _label_semantic);
-    ~SementicGraphVertex();
+    Vertex();
+    Vertex(int _id_node, int _label_semantic);
+    ~Vertex();
 
     void add_pixel_inside(int x, int y);
     void add_pixel_adjacent(int x, int y);
@@ -31,32 +31,32 @@ public:
     std::vector<int*> get_pixels_adjacent(){return pixels_adjacent;}
 };
 
-SementicGraphVertex::SementicGraphVertex()
+Vertex::Vertex()
 {
 }
 
-SementicGraphVertex::SementicGraphVertex(int _id_node, int _label_semantic):
+Vertex::Vertex(int _id_node, int _label_semantic):
     id_node(_id_node), label_semantic(_label_semantic)
 {
 }
 
-SementicGraphVertex::~SementicGraphVertex()
+Vertex::~Vertex()
 {
 }
 
-void SementicGraphVertex::add_pixel_inside(int x, int y)
+void Vertex::add_pixel_inside(int x, int y)
 {
     int temp[2] = {x,y};
     pixels_inside.push_back(temp);
 }
 
-void SementicGraphVertex::add_pixel_adjacent(int x, int y)
+void Vertex::add_pixel_adjacent(int x, int y)
 {
     int temp[2] = {x,y};
     pixels_adjacent.push_back(temp);
 }
 
-bool SementicGraphVertex::is_pixel_inside(int x, int y)
+bool Vertex::is_pixel_inside(int x, int y)
 {
     int temp[2] = {x,y};
     auto iter_pixel = std::find(
@@ -68,7 +68,7 @@ bool SementicGraphVertex::is_pixel_inside(int x, int y)
     return true;   
 }
 
-bool SementicGraphVertex::is_pixel_adjacent(int x, int y)
+bool Vertex::is_pixel_adjacent(int x, int y)
 {
     int temp[2] = {x,y};
     auto iter_pixel = std::find(
