@@ -20,11 +20,11 @@ public:
     Vertex(int _id_node, int _label_semantic);
     ~Vertex();
 
-    void add_pixel_inside(int x, int y);
-    void add_pixel_adjacent(int x, int y);
+    void add_pixel_inside(int row, int col);
+    void add_pixel_adjacent(int row, int col);
 
-    bool is_pixel_inside(int x, int y);
-    bool is_pixel_adjacent(int x, int y);
+    bool is_pixel_inside(int row, int col);
+    bool is_pixel_adjacent(int row, int col);
 
     int get_id_node(){return id_node;}
     int get_label_semantic(){return label_semantic;}
@@ -45,21 +45,21 @@ Vertex::~Vertex()
 {
 }
 
-void Vertex::add_pixel_inside(int x, int y)
+void Vertex::add_pixel_inside(int row, int col)
 {
-    int temp[2] = {x,y};
+    int temp[2] = {row,col};
     pixels_inside.push_back(temp);
 }
 
-void Vertex::add_pixel_adjacent(int x, int y)
+void Vertex::add_pixel_adjacent(int row, int col)
 {
-    int temp[2] = {x,y};
+    int temp[2] = {row,col};
     pixels_adjacent.push_back(temp);
 }
 
-bool Vertex::is_pixel_inside(int x, int y)
+bool Vertex::is_pixel_inside(int row, int col)
 {
-    int temp[2] = {x,y};
+    int temp[2] = {row,col};
     auto iter_pixel = std::find(
         pixels_inside.begin(),pixels_inside.end(),temp);
 
@@ -69,9 +69,9 @@ bool Vertex::is_pixel_inside(int x, int y)
     return true;   
 }
 
-bool Vertex::is_pixel_adjacent(int x, int y)
+bool Vertex::is_pixel_adjacent(int row, int col)
 {
-    int temp[2] = {x,y};
+    int temp[2] = {row, col};
     auto iter_pixel = std::find(
         pixels_adjacent.begin(),pixels_adjacent.end(),temp);
 
