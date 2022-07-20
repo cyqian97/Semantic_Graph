@@ -18,7 +18,8 @@ private:
     const int image_width;
     int** mat_image_semantic;
 
-    std::vector<Vertex> vertices;
+    std::vector<Vertex*> vertices_ptr;
+    int min_vertex_num = 100;
     bool** mat_adjacency;
 
     int num_pixels;
@@ -34,12 +35,14 @@ private:
     int id_vertex_current = 0;
     Vertex* vertex_current_ptr;
 
+    void flood_fill();
+    void build_graph();
+
 public:
 
     Graph(int** const img_semantic, const int image_height, const int image_width);
     ~Graph();
 
-    void flood_fill();
 };
 
 
@@ -71,13 +74,14 @@ Graph::Graph(int** const _mat_image_semantic, const int _image_height, const int
     queue_current.push_back(pixel_init);
     mat_scanned[0][0] = true;
     vertex_current_ptr = new Vertex(id_vertex_current++,mat_image_semantic[0][0]);
+    vertices_ptr.push_back(vertex_current_ptr);
     vertex_current_ptr->add_pixel_inside(0,0);
     mat_id_vertex[0][0] = 0;
-    std::cout << "Complete initialization..." << std::endl;
+    // std::cout << "Complete initialization..." << std::endl;
 
-    std::cout << "Start first flood fill..." << std::endl;
+    // std::cout << "Start first flood fill..." << std::endl;
     flood_fill();
-    std::cout << "Complete first flood fill..." << std::endl;
+    // std::cout << "Complete first flood fill..." << std::endl;
 
     auto pixel_next_ptr = queue_next.begin();
     while(!queue_next.empty())
@@ -88,19 +92,20 @@ Graph::Graph(int** const _mat_image_semantic, const int _image_height, const int
             queue_current.push_back(q_);
             mat_scanned[q_[0]][q_[1]] = true;
             vertex_current_ptr = new Vertex(id_vertex_current++,mat_image_semantic[q_[0]][q_[1]]);
+            vertices_ptr.push_back(vertex_current_ptr);
             vertex_current_ptr->add_pixel_inside(q_[0], q_[1]);
             mat_id_vertex[q_[0]][q_[1]] = vertex_current_ptr->get_id_node();
-            std::cout << "Start a flood fill..." << std::endl;
+            // std::cout << "Start a flood fill..." << std::endl;
             flood_fill();
-            std::cout << "Complete a flood fill..." << std::endl;
+            // std::cout << "Complete a flood fill..." << std::endl;
         }
         pixel_next_ptr = queue_next.begin();
         queue_next.erase(pixel_next_ptr); 
-        std::cout << "queue next size:" << queue_next.size() << std::endl;
+        // std::cout << "queue next size:" << queue_next.size() << std::endl;
     }
-    std::cout << "Complete building the graph..." << std::endl;
+    // std::cout << "Complete building the graph..." << std::endl;
 
-    std::ofstream myfile ("example.txt");
+    std::ofstream myfile ("mat_id_vertex.txt");
     if (myfile.is_open())
     {
         for(int i = 0; i<image_height; i++)
@@ -111,6 +116,8 @@ Graph::Graph(int** const _mat_image_semantic, const int _image_height, const int
         }
     }
     myfile.close();
+
+    build_graph();
 
 
 }
@@ -158,6 +165,13 @@ void Graph::flood_fill()
             {
                 queue_next.push_back(p_);
                 vertex_current_ptr->add_pixel_adjacent(p_[0],p_[1]);
+
+                // std::vector<int*> v = vertex_current_ptr->get_pixels_adjacent();
+
+                // std::cout << "adjacency size: " << (vertex_current_ptr->get_pixels_adjacent()).size() << std::endl;
+                // for(const auto &p_a:vertex_current_ptr->get_pixels_adjacent())
+                //     std::cout << "{" << p_a[0] << ", " << p_a[1] << "}, " ;
+                // std::cout << std::endl;
             // std::cout << "Checkpoint 3" << std::endl;
             }
         }
@@ -170,6 +184,52 @@ void Graph::flood_fill()
     }
 }
 
+void Graph::build_graph()
+{
 
+    mat_adjacency = new bool* [vertices_ptr.size()];
+    for(int i = 0; i<vertices_ptr.size(); i++)
+        mat_adjacency[i] = new bool[vertices_ptr.size()]();
+
+    for(int i=0; i<vertices_ptr.size(); i++)
+    {
+        // std::cout << "vertex_id: " << vertices_ptr[i]->get_id_node() << std::endl;
+        std::vector<int*> v = (vertices_ptr[i])->get_pixels_adjacent();
+        for(const auto &p_:v)
+        {
+            // std::cout << "p = {" << p_[0] << ", " << p_[1] << "}" << std::endl;
+            for(int j=0; j<vertices_ptr.size(); j++) 
+            {   
+                if(vertices_ptr[j]->is_pixel_inside(p_[0],p_[1]))
+                {
+                    mat_adjacency[i][j] = true;
+                    // std::cout << "adj\n";
+                }
+            }
+        }
+    }    
+
+    std::ofstream myfile ("mat_adjacency.txt");
+    if (myfile.is_open())
+    {
+        for(int i = 0; i<vertices_ptr.size(); i++)
+        {
+            for(int j = 0; j<vertices_ptr.size(); j++)
+                myfile << mat_adjacency[i][j] << "\t";
+            myfile << "\n";
+        }
+    }
+    myfile.close();
+
+    myfile.open("labels.txt");
+    if (myfile.is_open())
+    {
+        for(int i = 0; i<vertices_ptr.size(); i++)
+        {
+            myfile << (vertices_ptr[i])->get_label_semantic() << "\t";
+        }
+    }
+    myfile.close();
+}
 
 } // namespace SemanticGraph
