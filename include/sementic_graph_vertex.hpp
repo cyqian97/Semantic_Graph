@@ -10,6 +10,7 @@ class Vertex
 private:
     const int id_node = -1;
     const int label_semantic = -1;
+
     double center[2];
 
     std::vector<int*> pixels_inside;
@@ -27,7 +28,10 @@ public:
     bool is_pixel_inside(int row, int col);
     bool is_pixel_adjacent(int row, int col);
 
+    void calc_center();
+
     int get_id_node(){return id_node;}
+    double* get_center_node(){return center;}
     int get_label_semantic(){return label_semantic;}
     std::vector<int*> get_pixels_inside(){return pixels_inside;}
     std::vector<int*> get_pixels_adjacent(){return pixels_adjacent;}
@@ -96,5 +100,20 @@ bool Vertex::is_pixel_adjacent(int row, int col)
         if(p[0] == row && p[1] == col)
             return true;   
     return false;
+}
+
+void Vertex::calc_center()
+{
+    center[0] = 0.;
+    center[1] = 0.;
+
+    for(auto& pixel: pixels_inside)
+    {
+        center[0] += pixel[0];
+        center[1] += pixel[1];
+    }
+    center[0] /= pixels_inside.size();
+    center[1] /= pixels_inside.size();
+    // std::cout << "Vertex id=" << id_node << " center = " << center[0] << " , " << center[1] << std::endl;
 }
 } // namespace SemanticGraph
